@@ -128,7 +128,7 @@ actor class MultipleBTrees() {
         case(null) {};
       };
     };
-    buffer.toArray();
+    Buffer.toArray(buffer);
   };
 
   public func empty(btree_id: MemoryId) : async () {

@@ -223,6 +223,10 @@ module {
       memory_manager_.read(id_, offset, size);
     };
 
+    public func readBlob(offset: Nat64, size: Nat) : Blob {
+      memory_manager_.readBlob(id_, offset, size);
+    };
+
     public func write(offset: Nat64, src: [Nat8]) {
       memory_manager_.write(id_, offset, src);
     };
@@ -426,6 +430,22 @@ module {
         ));
       };
       Array.flatten(buffer.toArray());
+    };
+
+    public func readBlob(id: MemoryId, offset: Nat64, size: Nat) : Blob {
+      verifyId(id);
+      if ((offset + Nat64.fromNat(size)) > memorySize(id) * Constants.WASM_PAGE_SIZE) {
+        Debug.trap(Nat8.toText(id) # ": read out of bounds");
+      };
+      let buffer = Buffer.Buffer<[Nat8]>(0);
+      for ({address; length;} in bucketIter(id, offset, size)) {
+        buffer.add(Memory.read(
+          memory_,
+          address,
+          Nat64.toNat(length),
+        ));
+      };
+      Blob.fromArray(Array.flatten(buffer.toArray()));
     };
 
     // Initializes a [`BucketIterator`].

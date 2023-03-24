@@ -81,6 +81,9 @@ module {
     public func read(address: Nat64, size: Nat) : [Nat8] {
       Blob.toArray(StableMemory.loadBlob(address, size));
     };
+    public func readBlob(address: Nat64, size: Nat) : Blob {
+      StableMemory.loadBlob(address, size);
+    };
   };
 
   public class VecMemory() = this {

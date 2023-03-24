@@ -21,6 +21,7 @@ module {
     grow: (Nat64) -> Int64;
     write: (Nat64, [Nat8]) -> ();
     read: (Nat64, Nat) -> [Nat8];
+    readBlob: (Nat64, Nat) -> Blob;
   };
 
   /// An indicator of the current position in the map.
